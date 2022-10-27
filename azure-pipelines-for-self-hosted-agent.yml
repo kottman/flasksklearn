@@ -13,7 +13,7 @@ variables:
   azureServiceConnectionId: 'myservoceconn213300'
   
   # TODO: Specify the value of the existing Web App name
-  webAppName: 'mywebapp207578'
+  webAppName: 'mywebapp213300'
 
   # Environment name
   environmentName: 'flask-ml-service'
