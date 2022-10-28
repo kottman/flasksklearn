@@ -70,7 +70,7 @@ stages:
 
     - task: UsePythonVersion@0
       inputs:
-        versionSpec: python3.7
+        versionSpec: '$(pythonVersion)'
       displayName: 'Use Python version'
 
     - task: AzureWebApp@1
