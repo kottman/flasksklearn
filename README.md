@@ -1,12 +1,12 @@
 # Overview
 
-A basic python Flask application is used to demonstrate the CI/CD process using github actions and azure pipelines.
+A basic python3.7 Flask application is used to demonstrate the CI/CD process using github actions and azure pipelines.
 
 ## Project Plan
 Project Plan
 
 * [Trello](https://trello.com/b/hkCyLyTn/udacity)
-* [Spreadsheet plan](https://docs.google.com/spreadsheets/d/1Gi1TTtdu2XclJLVrJn2Y83IPgHYLP2zEqJ7EX-CPxGE/edit#gid=1348135932)
+* [Spreadsheet plan](https://docs.google.com/spreadsheets/d/1Gi1TTtdu2XclJLVrJn2Y83IPgHYLP2zEqJ7EX-CPxGE/edit?usp=sharing)
 
 ## Instructions
 Following diagram illustrates the structure: 
