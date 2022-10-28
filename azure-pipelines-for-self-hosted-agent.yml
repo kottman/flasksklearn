@@ -74,10 +74,10 @@ stages:
       displayName: 'Use Python version'
 
     - task: AzureWebApp@1
-      displayName: 'Deploy Azure Web App : {{ webAppName }}'
+      displayName: 'Deploy Azure Web App : mywebapp213412'
       inputs:
         azureSubscription: $(azureServiceConnectionId)
-        appName: $(webAppName)
+        appName: 'mywebapp213412'
         package: $(Pipeline.Workspace)/drop/$(Build.BuildId).zip
         deploymentMethod: zipDeploy
         appType: webAppLinux
