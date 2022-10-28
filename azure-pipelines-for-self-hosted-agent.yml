@@ -60,3 +60,29 @@ stages:
     - upload: $(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip
       displayName: 'myStep 5 - Upload package'
       artifact: drop
+
+- stage: Deployment
+  displayName: Deploy stage
+  jobs:
+  - job: DeploymentJob
+    pool: myAgentPool
+    steps:
+
+    - task: UsePythonVersion@0
+      inputs:
+        versionSpec: python3.7
+      displayName: 'Use Python version'
+
+    - task: AzureWebApp@1
+      displayName: 'Deploy Azure Web App : {{ webAppName }}'
+      inputs:
+        azureSubscription: $(azureServiceConnectionId)
+        appName: $(webAppName)
+        package: $(Pipeline.Workspace)/drop/$(Build.BuildId).zip
+        deploymentMethod: zipDeploy
+        appType: webAppLinux
+
+        # The following parameter is specific to the Flask example code. You may
+        # or may not need a startup command for your app.
+
+        startUpCommand: 'gunicorn --bind=0.0.0.0 --workers=4 startup:app'
