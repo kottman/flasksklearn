@@ -59,7 +59,7 @@ stages:
 
     - upload: $(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip
       displayName: 'myStep 5 - Upload package'
-      artifact: drop
+#      artifact: drop
 
 - stage: Deployment
   displayName: Deploy stage
@@ -78,7 +78,8 @@ stages:
       inputs:
         azureSubscription: $(azureServiceConnectionId)
         appName: 'mywebapp213412'
-        package: $(Pipeline.Workspace)/drop/$(Build.BuildId).zip
+#        package: $(Pipeline.Workspace)/drop/$(Build.BuildId).zip
+        package: $(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip
         deploymentMethod: zipDeploy
         appType: webAppLinux
 
