@@ -3,16 +3,15 @@
 # Add steps that build, run tests, deploy, and more:
 # https://aka.ms/yaml
 trigger:
-- main
+- master
 
-# TODO: Replace the agent pool name
 pool: myAgentPool
 
 variables:
-  # TODO: Replace the service connection name as used in the DevOps project settings
+  # Azure Resource Manager connection created during pipeline creation
   azureServiceConnectionId: 'myserviceconn213498'
   
-  # TODO: Specify the value of the existing Web App name
+  # Web app name
   webAppName: 'mywebapp213498'
 
   # Environment name
@@ -33,23 +32,16 @@ stages:
         python3.7 -m pip install setup
         python3.7 -m pip install -r requirements.txt
       workingDirectory: $(projectRoot)
-      displayName: 'myStep 1'
-
-    - script: |
-        export PATH=$HOME/.local/bin:$PATH
-        make install
-      workingDirectory: $(projectRoot)
-      displayName: 'myStep 2'
 
     - script: |
         export PATH=$HOME/.local/bin:$PATH
         make install
         make lint
       workingDirectory: $(projectRoot)
-      displayName:  'myStep 3 - Run lint tests'
+      displayName: 'Run lint tests'
 
     - task: ArchiveFiles@2
-      displayName: 'myStep 4 - Archive files'
+      displayName: 'Archive files'
       inputs:
         rootFolderOrFile: '$(projectRoot)'
         includeRootFolder: false
@@ -58,33 +50,25 @@ stages:
         replaceExistingArchive: true
 
     - upload: $(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip
-      displayName: 'myStep 5 - Upload package'
+      displayName: 'Upload package'
       artifact: drop
 
-- stage: Deployment
-  displayName: Deploy stage
+- stage: Deploy
+  displayName: 'Deploy Web App'
+  dependsOn: Build
+  condition: succeeded()
   jobs:
-  - job: DeploymentJob
+  - deployment: DeploymentJob
     pool: myAgentPool
-    steps:
-
-    - task: UsePythonVersion@0
-      inputs:
-        versionSpec: '3.7.15'
-      displayName: 'Use Python version'
-
-    - task: AzureWebApp@1
-      displayName: 'Deploy Azure Web App : mywebapp213498'
-      inputs:
-        azureSubscription: $(azureServiceConnectionId)
-        appName: 'mywebapp213498'
-        package: $(Pipeline.Workspace)/drop/$(Build.BuildId).zip
-#        package: $(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip
-        deploymentMethod: zipDeploy
-        appType: webAppLinux
-
-        # The following parameter is specific to the Flask example code. You may
-        # or may not need a startup command for your app.
-
-        startUpCommand: 'gunicorn --bind=0.0.0.0 --workers=4 startup:app'
-    - task: PublishBuildArtifacts@1
+    environment: $(environmentName)
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+          - task: AzureWebApp@1
+            displayName: 'Deploy Azure Web App : flask-ml-service'
+            inputs:
+              azureSubscription: $(azureServiceConnectionId)
+              appType: webAppLinux
+              appName: $(webAppName)
+              package: $(Pipeline.Workspace)/drop/$(Build.BuildId).zip
