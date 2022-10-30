@@ -9,10 +9,10 @@ pool: myAgentPool
 
 variables:
   # Azure Resource Manager connection created during pipeline creation
-  azureServiceConnectionId: 'myserviceconn213498'
+  azureServiceConnectionId: 'myserviceconn213607'
   
   # Web app name
-  webAppName: 'mywebapp213498'
+  webAppName: 'mywebapp213607'
 
   # Environment name
   environmentName: 'flask-ml-service'
