@@ -64,7 +64,7 @@ def predict():
         return "Model not loaded"
 
     json_payload = request.json
-    LOG.info("JSON payload: %s json_payload dummy edit")
+    LOG.info("JSON payload: %s json_payload another dummy edit from azure cli")
     inference_payload = pd.DataFrame(json_payload)
     LOG.info("inference payload DataFrame: %s inference_payload")
     scaled_payload = scale(inference_payload)
