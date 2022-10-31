@@ -15,9 +15,9 @@ Following diagram illustrates the structure:
 
 ## Prerequisites
 1. You should have an account on https://portal.azure.com/ and https://dev.azure.com/.
-1. You should have a publicly visible DevOps project, say Flask-ML-Deploy, available in your DevOps account.
+1. You should have a publicly visible DevOps project, say Flask-ML-Deploy, available in your DevOps account and an "Azure Resource Manager" type service connection already created
 1. Your DevOps project should have a service connection created using the Azure Resource Manager and Service principal (manual).
-1. Your DevOps project should have a Azure Pipeline Agent setup.
+1. Your DevOps project should have an agent pool with an Azure Pipeline Agent attached.
 
 ## Instructions
 1. Sing in to azure portal and open Azure CLI
@@ -27,11 +27,11 @@ Following diagram illustrates the structure:
     cd flasksklearn
     ```
    ![Cloned project in Azure Cloud Shell](cloned_project.png "Cloned project")
-3.  Deploy your app
+3.  For the automated deployment process to work web application should exist. Deploy your app manually:
     ```bash
     az webapp up --name <your-unique-app-name> --resource-group <your-resource-group> --runtime "PYTHON:3.7"
     ```
-4. To see the running app, open a browser and go to:
+4. Verify app is running, open a browser and go to:
     ```
     https://<your-unique-app-name>.azurewebsites.net/
     ```
@@ -54,6 +54,9 @@ as `yml`
 9. Verify successful prediction
    ![Prediction](webapp_make_predict_cloud_shell.png "Prediction")
 10. Stream logs
+   ```bash
+   az webapp log tail --name <your-unique-app-name> --resource-group <your-resource-group>
+   ```
    ![Stream logs](stream_logs.png "Stream logs")
 ## Enhancements
 
@@ -61,6 +64,6 @@ Future versions should support latest python version.
 
 ## Demo 
 
-<TODO: Add link Screencast on YouTube>
+https://youtu.be/fSIZTzlmI6A
 
 
